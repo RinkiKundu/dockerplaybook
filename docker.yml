@@ -1,32 +1,31 @@
---- 
-- 
-  become: true
-  hosts: docker
-  name: "install Docker"
-  tasks: 
-    - 
-      ansible.builtin.apt: 
-        name: 
+---
+- name: install Docker
+  hosts: all
+  become: docker
+  tasks:
+    - name: Install apt-transport-https
+      ansible.builtin.apt:
+        name:
+          
           - ca-certificates
           - lsb-release
           - gnupg
         state: latest
         update_cache: true
-      name: "Install apt-transport-https"
-    - 
-      ansible.builtin.apt_key: 
-        state: present
+
+    - name: Add signing key
+      ansible.builtin.apt_key:
         url: "https://download.docker.com/linux/{{ ansible_distribution | lower }}/gpg"
-      name: "Add signing key"
-    - 
-      ansible.builtin.apt_repository: 
-        filename: docker
+        state: present
+
+    - name: Add repository into sources list
+      ansible.builtin.apt_repository:
         repo: "deb [arch={{ ansible_architecture }}] https://download.docker.com/linux/{{ ansible_distribution | lower }} {{ ansible_distribution_release }} stable"
         state: present
-      name: "Add repository into sources list"
-    - 
-      ansible.builtin.apt: 
-        name: docker.io
+        filename: docker
+
+    - name: Install docker.io
+      ansible.builtin.apt:
+        name: "docker.io"
         state: latest
         update_cache: true
-      name: "Install docker.io"
