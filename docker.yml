@@ -26,7 +26,7 @@
       name: "Add repository into sources list"
     - 
       ansible.builtin.apt: 
-        name: docker-ce
+        name: docker-io
         state: latest
         update_cache: true
-      name: "Install docker-ce"
+      name: "Install docker-io"
