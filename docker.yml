@@ -1,7 +1,7 @@
 --- 
 - 
   become: true
-  hosts: all
+  hosts: docker
   name: "install Docker"
   tasks: 
     - 
